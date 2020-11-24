@@ -1,0 +1,11 @@
+{
+
+    "'chromeWebSecurity'": false ,
+
+    "env" : {
+
+        "url": "https://demo.nopcommerce.com/"
+    }
+    
+
+}
