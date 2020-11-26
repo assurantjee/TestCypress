@@ -1,11 +1,11 @@
 {
-
-    "'chromeWebSecurity'": false ,
-
-    "env" : {
-
-        "url": "https://demo.nopcommerce.com/"
-    }
-    
-
+  "'chromeWebSecurity'": false,
+  "env": {
+    "url1": "https://demo.nopcommerce.com/",
+    "url2": "https://demo.nopcommerce.com/login?returnUrl=%2F"
+  },
+  "pageLoadTimeout": 100000,
+  
+    "projectId": "t8s5s9"
+  
 }

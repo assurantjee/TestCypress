@@ -4,16 +4,18 @@ import LandingPage from '../../support/pageObjects/LandingPage'
 import ProductSummaryPage from '../../support/pageObjects/ProductSummaryPage'
 import ProductDetailsPage from '../../support/pageObjects/ProductDetailsPage'
 import ShoppingCartPage from '../../support/pageObjects/ShoppingCartPage'
+import RegistrationPage from '../../support/pageObjects/RegistrationPage'
+import SuccessPage from '../../support/pageObjects/SuccessPage'
+
 
 describe('ShoppingAnwhere', function () {
 
-    before(() =>{
+    beforeEach(() => {
 
-        cy.fixture('example').then(function(data){
+        cy.fixture('example').then(function (data) {
 
-            this.data=data
+            this.data = data
         })
-
         
     })
     it('Product search and add to cart functionality', function () {
@@ -21,7 +23,8 @@ describe('ShoppingAnwhere', function () {
         const productSummary = new ProductSummaryPage()
         const productDetail = new ProductDetailsPage()
         const shoppingCart = new ShoppingCartPage()
-        cy.visit(Cypress.env('url'))
+
+        cy.visit(Cypress.env('url1'))
         landingPage.getSearchbox().type(this.data.product)
         landingPage.getSearchButtton().click()
         productSummary.getProduct().click()
@@ -34,32 +37,37 @@ describe('ShoppingAnwhere', function () {
     })
 
     it('Registration functionality', function () {
+        const landingPage = new LandingPage()
+        const registration = new RegistrationPage()
+        const success = new SuccessPage()
+        cy.visit(Cypress.env('url2'))
+        landingPage.getRegisLink().click()
+        registration.getGender().check()
+        registration.getFirstName().type(this.data.firstName)
+        registration.getLastName().type(this.data.lastName)
+        var dob=this.data.DOB
+        var splittedDob=dob.split("/")
+        registration.getDayOfBirth().select(splittedDob[0])
+        registration.getMonthOfBirth().select(splittedDob[1])
+        registration.getYearOfBirth().select(splittedDob[2])
+        var randomNumber = 'ABC' + Math.random()
 
-        cy.visit('https://demo.nopcommerce.com/login?returnUrl=%2F')
-        cy.get('input[value="Register"]').click()
-        cy.get('#gender-male').check()
-        cy.get('#FirstName').type('Tarun')
-        cy.get('#LastName').type('Tarun')
-        cy.get('select[name="DateOfBirthDay"]').select('15')
-        cy.get('select[name="DateOfBirthMonth"]').select('March')
-        cy.get('select[name="DateOfBirthYear"]').select('1992')
-        const name = 'ABC'
-        var randomNumber = name + Math.random()
-        cy.get('#Email').type(randomNumber + '@gmail.com')
-        cy.get('#Company').type('Tarun')
-        cy.get('#Newsletter').uncheck()
-        cy.get('#Password').type('Test@123')
-        cy.get('#ConfirmPassword').type('Test@123')
-        cy.get('#register-button').click()
-        cy.get('.result').should('be.visible')
+        registration.getEmailText().type(randomNumber+'@gmail.com')
 
+        registration.getCompanyName().type(this.data.companyName)
+        registration.getCheckBox().uncheck()
+        registration.getPwd().type(this.data.password)
+        registration.getConfirmPwd().type(this.data.password)
+        registration.getRegButton().click()
+        success.getSuccessMessage().should('have.text','Your registration completed')
     })
 
-    it('Login functionality', function () {
+     it('Login functionality', function () { 
 
-        cy.log(randomNumber)
+        cy.login(this.data.email,this.data.password)
 
-    })
+
+     })
 
 
 })

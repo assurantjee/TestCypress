@@ -1,5 +1,11 @@
 {
-  "name":"Tarun",
+  "firstName":"Tarun",
   "gender":"Male" ,
-  "product": "lenovo"
+  "product": "lenovo",
+  "lastName": "muk",
+  "DOB":"15/March/1992",
+  "companyName":"XYZ",
+  "password":"Test@123",
+  "email":"xyz@gmail.com"
+
 }
