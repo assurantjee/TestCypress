@@ -1,25 +1,29 @@
 
 
-describe('ShoppingAnwhere', function () {
+describe('XHR Testing', function () {
 
 
 
 
-    it('XHR testing with Cypress', function () {
+    it('Mocking API with stub response', function () {
 
+        let message = 'whoa, this comment does not exist'
+      cy.visit('https://example.cypress.io/commands/network-requests')
+        cy.intercept({
+            method: 'PUT',
+            url: '**/comments/*',
+          }, {
+            statusCode: 404,
+            body: { error: message },
+            headers: { 'access-control-allow-origin': '*' },
+            delayMs: 500,
+          }).as('putComment')
+       
+          cy.get('.network-put').click()     
+          cy.wait('@putComment')
+          cy.get('.network-put-comment').should('contain', message)
 
-
-        cy.request('GET', 'https://dog.ceo/api/breeds/image/random', {
-
-
-
-
-        }).then(function (response) {
-
-            expect(response.body).to.have.property('status', 'success')
-
-        })
-
+       
 
 
 
